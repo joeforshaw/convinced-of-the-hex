@@ -21,14 +21,7 @@ function Player(number, currentHex, colour, claimedColour, gridWidth, gridHeight
 
   this.setCurrentHex = setCurrentHex;
   function setCurrentHex(currentHex) {
-    if (currentHex.owned != this.number) {
-      scores[this.number]++;
-      if (this.number == 0 && currentHex.owned == 1) {
-        scores[1]--;
-      } else if (this.number == 1 && currentHex.owned == 0) {
-        scores[0]--;
-      }
-    }
+    currentHex.setOwned(number);
 
     this.currentHex.setPlayer(undefined);
     this.currentHex = currentHex;
@@ -55,11 +48,11 @@ function Player(number, currentHex, colour, claimedColour, gridWidth, gridHeight
 
     if (this.currentHex.boost) {
       seed = Math.random();
-      // if (seed < 0.5) {
-        claimRow(newCoords[0], newCoords[1]);
-      // } else {
-        // claimColumn(newCoords[0], newCoords[1]);
-      // }
+      if (seed < 0.5) {
+        this.claimColumn(newCoords[0], newCoords[1]);
+      } else {
+        this.claimRow(newCoords[0], newCoords[1]);
+      }
       this.currentHex.boost = false;
     }
   }
@@ -137,16 +130,26 @@ function Player(number, currentHex, colour, claimedColour, gridWidth, gridHeight
     }
     return [newXIndex, newYIndex];
   }
-}
 
-function claimRow(newXIndex, newYIndex) {
-  for (var i = 0; i < gridWidth; i++) {
-    console.log(i);
-    // hexGrid[i][newXIndex] = this.number;
-    // hexGrid[i][newXIndex].setColour(this.claimedColour);
+  this.claimRow = claimRow;
+  function claimRow(newXIndex, newYIndex) {
+    for (var i = 0; i < gridWidth; i++) {
+      hexGrid[i][newYIndex].setOwned(this.number);
+      hexGrid[i][newYIndex].setColour(this.claimedColour);
+      console.log(i, newXIndex, hexGrid[i][newYIndex])
+    }
   }
-}
 
-function claimColumn(newXIndex, newYIndex) {
+  this.claimColumn = claimColumn;
+  function claimColumn(newXIndex, newYIndex) {
+    for (var i = 0; i < gridHeight; i++) {
+      if (!hexGrid[newXIndex][i].boost && hexGrid[newXIndex][i].player === undefined) {
+        hexGrid[newXIndex][i].setColour(this.claimedColour);
+      }
+      if (hexGrid[newXIndex][i].player === undefined) {
+        hexGrid[newXIndex][i].setOwned(this.number);
+      }
+    }
+  }
 
 }
