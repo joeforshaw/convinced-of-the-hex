@@ -1,3 +1,8 @@
+@font-face {
+  font-family: Vermin Vibes;
+  src: url('vermin-vibes.otf');
+}
+
 #hex {
   bottom: 0;
   left: 0;
@@ -5,5 +10,5 @@
   position: absolute;
   right: 0;
   top: 0;
-  background-color: #0DFFFF;
+  background-color: #5E3164;
 }
