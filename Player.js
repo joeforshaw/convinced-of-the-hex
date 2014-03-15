@@ -1,12 +1,13 @@
 function Player(_number, _colour, _claimedColour) {
-  this.colour        = _colour;
-  this.claimedColour = _claimedColour;
-
-  var currentHex;
+  var colour        = _colour;
+  var claimedColour = _claimedColour;
   var number        = _number;
+  var currentHex;
 
-  this.getCurrentHex = function() { return currentHex; }
-  this.getNumber     = function() { return number;     }
+  this.getColour        = function() { return colour;        }
+  this.getClaimedColour = function() { return claimedColour; }
+  this.getNumber        = function() { return number;        }
+  this.getCurrentHex    = function() { return currentHex;    }
 
   this.setCurrentHex = function(_currentHex) {
     if (currentHex !== undefined) {

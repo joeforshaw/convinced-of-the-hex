@@ -30,13 +30,13 @@ function Hexagon(_image, _xIndex, _yIndex) {
 
 	this.calculateColour = function() {
 		if (player !== undefined && isOccupied) {
-			image.setFill(player.colour);
+			image.setFill(player.getColour());
 		} else if (this.hasBoost()) {
 			image.setFill(colour.boost);
 		} else if (player === undefined) {
 			image.setFill(colour.unclaimed);
 		} else if (player !== undefined) {
-			image.setFill(player.claimedColour)
+			image.setFill(player.getClaimedColour());
 		}
 		image.getLayer().draw();
 	}
