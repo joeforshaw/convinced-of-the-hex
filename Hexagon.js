@@ -1,53 +1,101 @@
-function Hexagon(image, xIndex, yIndex) {
-	this.image = image;
-  this.xIndex = xIndex;
-  this.yIndex = yIndex;
-  this.player = undefined;
-  this.owned = -1;
-  this.boost = false;
+function Hexagon(_image, _xIndex, _yIndex) {
+	var boost      = undefined;
+	var image      = _image;
+	var player     = undefined;
+  var xIndex     = _xIndex;
+  var yIndex     = _yIndex;
+	var isOccupied = false;
 
-	this.getPlayer = getPlayer;
-	function getPlayer() {
-		return this.player;
+  this.getBoost   = function() { return boost;	    }
+	this.getImage   = function() { return image;      }
+	this.getPlayer  = function() { return player;     }
+	this.getXIndex  = function() { return xIndex;     }
+	this.getYIndex  = function() { return yIndex;     }
+	this.isOccupied = function() { return isOccupied; }
+
+	this.hasBoost = function() {
+		return boost !== undefined;
 	}
 
-  this.setPlayer = setPlayer;
-  function setPlayer(player) {
-    if (player !== undefined) {
-      this.setColour(player.colour);
-      this.owned = player.number;
-    } else {
-      if (this.owned == 0) {
-        this.setColour("FFF700");
-      } else if (this.owned == 1) {
-        this.setColour("E692FF");
-      }
-    }
-    this.player = player;
-  }
+	this.setBoost = function(_boost) {
+		boost = _boost;
+		this.calculateColour();
+	}
 
-  this.setColour = setColour;
-  function setColour(colour) {
-    this.image.setFill(colour);
-    this.image.getLayer().draw()
-  }
+	this.setPlayer = function(_player, _isOccupied) {
+		player = _player;
+		isOccupied = _isOccupied;
+		this.calculateColour();
+	}
 
-  this.setBoost = setBoost;
-  function setBoost(boost) {
-    this.boost = boost;
-    this.setColour("21FF21");
-  }
+	this.calculateColour = function() {
+		if (player !== undefined && isOccupied) {
+			image.setFill(player.colour);
+		} else if (this.hasBoost()) {
+			image.setFill(colour.boost);
+		} else if (player === undefined) {
+			image.setFill(colour.unclaimed);
+		} else if (player !== undefined) {
+			image.setFill(player.claimedColour)
+		}
+		image.getLayer().draw();
+	}
 
-  this.setOwned = setOwned;
-  function setOwned(number) {
-    if (this.owned != number) {
-      scores[number]++;
-      if (number == 0 && this.owned == 1) {
-        scores[1]--;
-      } else if (number == 1 && this.owned == 0) {
-        scores[0]--;
-      }
-    }
-  }
+	this.getAdjacent = function(_direction) {
+		var newXIndex = xIndex;
+		var newYIndex = yIndex;
+
+		if (yIndex % 2 == 0) {
+			if (_direction === MOVE_E) {
+				newXIndex = xIndex + 1;
+			} else if (_direction === MOVE_SE) {
+				newYIndex = yIndex + 1;
+			} else if (_direction === MOVE_SW) {
+				newXIndex = xIndex - 1;
+				newYIndex = yIndex + 1;
+			} else if (_direction === MOVE_W) {
+				newXIndex = xIndex - 1;
+			} else if (_direction === MOVE_NW) {
+				newXIndex = xIndex - 1;
+				newYIndex = yIndex - 1;
+			} else if (_direction === MOVE_NE) {
+				newYIndex = yIndex - 1;
+			}
+		} else {
+			if (_direction === MOVE_E) {
+				newXIndex = xIndex + 1;
+			} else if (_direction === MOVE_SE) {
+				newXIndex = xIndex + 1;
+				newYIndex = yIndex + 1;
+			} else if (_direction === MOVE_SW) {
+				newYIndex = yIndex + 1;
+			} else if (_direction === MOVE_W) {
+				newXIndex = xIndex - 1;
+			} else if (_direction === MOVE_NW) {
+				newYIndex = yIndex - 1;
+			} else if (_direction === MOVE_NE) {
+				newXIndex = xIndex + 1;
+				newYIndex = yIndex - 1;
+			}
+		}
+		if (newXIndex < 0) {
+			newXIndex = 0;
+		} else if (newXIndex >= config.gridWidth) {
+			newXIndex = config.gridWidth - 1;
+		}
+
+		if (newYIndex < 0) {
+			newYIndex = 0;
+		} else if (newYIndex >= config.gridHeight) {
+			newYIndex = config.gridHeight - 1;
+		}
+
+		if (hexGrid[newXIndex][newYIndex].isOccupied()) {
+			newXIndex = xIndex;
+			newYIndex = yIndex;
+		}
+
+		return hexGrid[newXIndex][newYIndex];
+	}
 
 }
