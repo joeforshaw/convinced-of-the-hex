@@ -40,31 +40,34 @@ var layer = new Kinetic.Layer();
 
 hexGrid = createHexGrid(layer);
 
+var title = new Kinetic.Text({
+  x: 40,
+  y: 40,
+  text: '< CONVINCED OF THE HEX >',
+  fontSize: 55,
+  fontFamily: 'Vermin Vibes',
+  fill: colour.text
+});
+
+var countdownText = new Kinetic.Text({
+  x: 900,
+  y: 60,
+  text: 'Time remaining: ' + config.timeLimit,
+  fontSize: 30,
+  fontFamily: 'Vermin Vibes',
+  fill: colour.text
+});
+startCountdown(countdownText, layer);
+
+menu = new Menu(layer);
+
 $(window).bind("load", function() {
-
-  menu = new Menu(layer);
-
-  menu.drawStartMenu();
-
-  var title = new Kinetic.Text({
-    x: 40,
-    y: 40,
-    text: '< CONVINCED OF THE HEX >',
-    fontSize: 55,
-    fontFamily: 'Vermin Vibes',
-    fill: colour.text
+  menu.getStartButtons().forEach(function(button) {
+    layer.add(button);
   });
-
-  var countdownText = new Kinetic.Text({
-    x: 900,
-    y: 60,
-    text: 'Time remaining: ' + config.timeLimit,
-    fontSize: 30,
-    fontFamily: 'Vermin Vibes',
-    fill: colour.text
+  menu.getStartText().forEach(function(text) {
+    layer.add(text);
   });
-  startCountdown(countdownText);
-
   layer.add(countdownText);
   layer.add(title);
 });
@@ -106,7 +109,7 @@ function createHexImage(i,j) {
   });
 }
 
-function startCountdown(countdownText) {
+function startCountdown(countdownText, layer) {
   var currentTime = config.timeLimit;
   var gameCounter = setInterval(timer, 1000);
   function timer() {
@@ -130,7 +133,7 @@ function startCountdown(countdownText) {
     } else {
       countdownText.setText("Time remaining: " + currentTime);
     }
-    countdownText.getLayer().draw();
+    layer.draw();
   }
 }
 
