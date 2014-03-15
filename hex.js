@@ -124,7 +124,10 @@ function startCountdown(countdownText) {
 
 function plantBoost() {
   if (Math.random() < config.boostChance) {
-    var randomHex = pickRandomHex();
+    var randomHex;
+    do {
+      randomHex = pickRandomHex();
+    } while (randomHex.isOccupied())
     randomHex.setBoost(new Boost(randomHex));
   }
 }
