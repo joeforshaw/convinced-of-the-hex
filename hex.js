@@ -1,15 +1,19 @@
 config = {
-  boostChance : 0.4,
-  gridWidth   : 10,
-  gridHeight  : 5,
-  hexHeight   : 60 * Math.sqrt(3),
-  hexRadius   : 60,
-  playing     : true,
-  scores      : [1,1],
-  timeLimit   : 20
+  boostChance  : 0.4,
+  gridHeight   : 5,
+  gridWidth    : 10,
+  hexHeight    : 60 * Math.sqrt(3),
+  hexRadius    : 60,
+  menuRadius   : 250,
+  playing      : false,
+  scores       : [1,1],
+  timeLimit    : 20,
+  windowHeight : 800,
+  windowWidth  : 1300
 }
 
 colour = {
+  background     : "5E3164",
   boost          : "21FF21",
   player1        : "FFA621",
   player1Claimed : "FFF700",
@@ -28,8 +32,8 @@ MOVE_NE = 5;
 
 var stage = new Kinetic.Stage({
   container: 'hex',
-  width: 1600,
-  height: 800
+  width: config.windowWidth,
+  height: config.windowHeight
 });
 
 var layer = new Kinetic.Layer();
@@ -37,6 +41,11 @@ var layer = new Kinetic.Layer();
 hexGrid = createHexGrid(layer);
 
 $(window).bind("load", function() {
+
+  menu = new Menu(layer);
+
+  menu.drawStartMenu();
+
   var title = new Kinetic.Text({
     x: 40,
     y: 40,
@@ -101,7 +110,11 @@ function startCountdown(countdownText) {
   var currentTime = config.timeLimit;
   var gameCounter = setInterval(timer, 1000);
   function timer() {
-    currentTime = currentTime - 1;
+    if (config.playing) {
+      currentTime = currentTime - 1;
+      plantBoost();
+    }
+
     if (currentTime < 0) {
       config.playing = false;
       clearInterval(gameCounter);
@@ -117,7 +130,6 @@ function startCountdown(countdownText) {
     } else {
       countdownText.setText("Time remaining: " + currentTime);
     }
-    plantBoost();
     countdownText.getLayer().draw();
   }
 }

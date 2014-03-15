@@ -2,6 +2,7 @@ function Hexagon(_image, _xIndex, _yIndex) {
 	var boost      = undefined;
 	var image      = _image;
 	var player     = undefined;
+	var text       = undefined;
   var xIndex     = _xIndex;
   var yIndex     = _yIndex;
 	var isOccupied = false;
@@ -9,6 +10,7 @@ function Hexagon(_image, _xIndex, _yIndex) {
   this.getBoost   = function() { return boost;	    }
 	this.getImage   = function() { return image;      }
 	this.getPlayer  = function() { return player;     }
+  this.getText    = function() { return text;       }
 	this.getXIndex  = function() { return xIndex;     }
 	this.getYIndex  = function() { return yIndex;     }
 	this.isOccupied = function() { return isOccupied; }
@@ -26,6 +28,14 @@ function Hexagon(_image, _xIndex, _yIndex) {
 		player = _player;
 		isOccupied = _isOccupied;
 		this.calculateColour();
+	}
+
+	this.setText = function(_text) {
+		text = _text;
+	}
+
+	this.hasText = function() {
+		return text !== undefined;
 	}
 
 	this.calculateColour = function() {
