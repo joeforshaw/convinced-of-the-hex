@@ -13,7 +13,7 @@ function Menu(_layer) {
   function createButton(_xIndex, _yIndex, _clickFunction) {
     var hex = hexGrid[_xIndex][_yIndex]
     var buttonImage = hex.getImage();
-    buttonImage.setFill("4FFF81");
+    buttonImage.setFill("#4FFF81");
     buttonImage.on('mouseover', toPointer);
     buttonImage.on('mouseout', toCursor);
     buttonImage.on('click', _clickFunction);

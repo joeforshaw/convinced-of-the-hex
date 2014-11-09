@@ -3,14 +3,14 @@ function Hexagon(_image, _xIndex, _yIndex) {
 	var image      = _image;
 	var player     = undefined;
 	var text       = undefined;
-  var xIndex     = _xIndex;
-  var yIndex     = _yIndex;
+	var xIndex     = _xIndex;
+	var yIndex     = _yIndex;
 	var isOccupied = false;
 
-  this.getBoost   = function() { return boost;	    }
+	this.getBoost   = function() { return boost;      }
 	this.getImage   = function() { return image;      }
 	this.getPlayer  = function() { return player;     }
-  this.getText    = function() { return text;       }
+	this.getText    = function() { return text;       }
 	this.getXIndex  = function() { return xIndex;     }
 	this.getYIndex  = function() { return yIndex;     }
 	this.isOccupied = function() { return isOccupied; }

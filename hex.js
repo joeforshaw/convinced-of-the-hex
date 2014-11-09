@@ -13,14 +13,14 @@ config = {
 }
 
 colour = {
-  background     : "5E3164",
-  boost          : "21FF21",
-  player1        : "FFA621",
-  player1Claimed : "FFF700",
-  player2        : "C800CF",
-  player2Claimed : "E692FF",
-  text           : "F0F0F0",
-  unclaimed      : "59F7F2",
+  background     : "#5E3164",
+  boost          : "#21FF21",
+  player1        : "#FFA621",
+  player1Claimed : "#FFF700",
+  player2        : "#C800CF",
+  player2Claimed : "#E692FF",
+  text           : "#F0F0F0",
+  unclaimed      : "#59F7F2",
 }
 
 MOVE_E  = 0;
